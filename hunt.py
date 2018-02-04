@@ -6,11 +6,13 @@ from urllib import request
 import bs4
 from bs4 import BeautifulSoup
 
+# url='http://cg.17173.com/item/famu.shtml'
+url='http://cg.17173.com/item/shoulie.shtml'
 
 fm1=[]
 fm2=[]
 stuff_list=[]
-req = request.Request('http://cg.17173.com/item/shoulie.shtml')
+req = request.Request(url)
 req.add_header('User-Agent', 'Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25')
 with request.urlopen(req) as f:
     #破网页用的中文gb2312编码
@@ -35,6 +37,8 @@ with request.urlopen(req) as f:
                     except:
                         continue
 
+f = open('hunt.txt','a+', encoding='utf-8')
+
 for i in range(len(fm1)):
 
     de=fm1[i]
@@ -44,7 +48,7 @@ for i in range(len(fm1)):
     level=tds[0].div.string.strip('\n')
     local=""
     for s in tds[2].strings:
-        s=s.strip('\n')
+        s=s.strip('\n').strip('\r')
         local += s
     
     r_local=""
@@ -80,5 +84,7 @@ for i in range(len(fm1)):
         "ext_desc":""
     }
     # stuff.append(item)
+    
     print(item)
-
+    f.write(str(item)+'\n')
+f.close()
